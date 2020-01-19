@@ -15,11 +15,14 @@ void printlist(Lplist list);
 void deletenode(Lplist HeadNode, int posdata);
 void insertlisttail(Lplist *rear, int data);
 void destroylist(Lplist pHead);
+int listlength(Lplist pHead);
+void clearlist(Lplist pHead);
 
 int main()
 {
+	//生成头结点
 	Lplist HeadNode = CreateList();
-	//定义头指针
+	//定义指向头结点的指针，即头指针
 	Lplist pHead = HeadNode;
 	//定义指向尾部的指针rear
 	Lplist rear = HeadNode;
@@ -31,12 +34,19 @@ int main()
 	insertlisthead(HeadNode, 1);
 	insertlisthead(HeadNode, 2);
 	insertlisthead(HeadNode, 3);
+	//求表长
+	printf("表长为%d\n", listlength(pHead));
     //打印
 	printlist(HeadNode);
 	//删除指定元素
 	deletenode(HeadNode, 2);
+	//求表长
+	printf("删除后表长为%d\n", listlength(pHead));
 	//打印
 	printlist(HeadNode);
+	//清空单链表
+	clearlist(pHead);
+	//销毁单链表
 	destroylist(pHead);
 	return 0;
 }
@@ -147,5 +157,32 @@ void destroylist(Lplist pHead)
 		p = pHead;      
 		pHead = pHead->next;
 		free(p);    //释放p的内存
+	}
+}
+
+//求表长
+int listlength(Lplist pHead)
+{
+	int i = 0;
+	Lplist p=NULL;
+	p = pHead->next;
+	while (p)
+	{
+		i++;
+		p = p->next;
+	}
+	return i;
+}
+
+//清空单链表
+void clearlist(Lplist pHead)
+{
+	Lplist p, q;
+	p = pHead->next;     //令p指向首元结点
+	while (p)
+	{
+		q = p->next;
+		free(p);
+		p = q;
 	}
 }
