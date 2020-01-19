@@ -13,27 +13,26 @@ int IsEmpty(Lplist List);
 void insertlisthead(Lplist list, int data);
 void printlist(Lplist list);
 void deletenode(Lplist HeadNode, int posdata);
-void insertlisttail(Lplist *tail, int data);
+void insertlisttail(Lplist *rear, int data);
 
 int main()
 {
 	Lplist HeadNode = CreateList();
 	//定义指向尾部的指针tail
-	Lplist tail = HeadNode;
+	Lplist rear = HeadNode;
 	//尾插法
-	insertlisttail(&tail, 1);
-	insertlisttail(&tail, 2);
-	insertlisttail(&tail, 3);
+	insertlisttail(&rear, 1);
+	insertlisttail(&rear, 2);
+	insertlisttail(&rear, 3);
 	//头插法
 	insertlisthead(HeadNode, 1);
 	insertlisthead(HeadNode, 2);
 	insertlisthead(HeadNode, 3);
     //打印
-	printf("正在打印链表...\n");
 	printlist(HeadNode);
 	//删除指定元素
 	deletenode(HeadNode, 2);
-	printf("正在打印删除数据后的链表...\n");
+	//打印
 	printlist(HeadNode);
 	return 0;
 }
@@ -125,11 +124,11 @@ void deletenode(Lplist HeadNode, int posdata)    //posdata为目标数据
 }
 
 //尾插法
-void insertlisttail(Lplist *tail, int data)
+void insertlisttail(Lplist *rear, int data)
 {
 	Lplist newnode = CreateNode(data);
 
-	(*tail)->next = newnode;     //temp指向的结点的指针域指向新结点
-	*tail = newnode;        //temp指向新结点
-	(*tail)->next = NULL;
+	(*rear)->next = newnode;     //temp指向的结点的指针域指向新结点
+	*rear = newnode;        //temp指向新结点
+	(*rear)->next = NULL;
 }
