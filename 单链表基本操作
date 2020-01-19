@@ -14,10 +14,13 @@ void insertlisthead(Lplist list, int data);
 void printlist(Lplist list);
 void deletenode(Lplist HeadNode, int posdata);
 void insertlisttail(Lplist *rear, int data);
+void destroylist(Lplist pHead);
 
 int main()
 {
 	Lplist HeadNode = CreateList();
+	//定义头指针
+	Lplist pHead = HeadNode;
 	//定义指向尾部的指针rear
 	Lplist rear = HeadNode;
 	//尾插法
@@ -34,6 +37,7 @@ int main()
 	deletenode(HeadNode, 2);
 	//打印
 	printlist(HeadNode);
+	destroylist(pHead);
 	return 0;
 }
 
@@ -131,4 +135,17 @@ void insertlisttail(Lplist *rear, int data)
 	(*rear)->next = newnode;     //temp指向的结点的指针域指向新结点
 	*rear = newnode;        //temp指向新结点
 	(*rear)->next = NULL;
+}
+
+//销毁单链表
+void destroylist(Lplist pHead)
+{
+	Lplist p=NULL;      //定义指向头结点的指针
+
+	while (pHead)      //循环条件：pHead != NULL
+	{
+		p = pHead;      
+		pHead = pHead->next;
+		free(p);    //释放p的内存
+	}
 }
