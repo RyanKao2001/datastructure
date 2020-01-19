@@ -12,16 +12,26 @@ Lplist CreateNode(int data);
 int IsEmpty(Lplist List);
 void insertlisthead(Lplist list, int data);
 void printlist(Lplist list);
-void deletenode(Lplist HeadNode,int posdata); 
+void deletenode(Lplist HeadNode, int posdata);
+void insertlisttail(Lplist *tail, int data);
 
 int main()
 {
 	Lplist HeadNode = CreateList();
+	//定义指向尾部的指针tail
+	Lplist tail = HeadNode;
+	//尾插法
+	insertlisttail(&tail, 1);
+	insertlisttail(&tail, 2);
+	insertlisttail(&tail, 3);
+	//头插法
 	insertlisthead(HeadNode, 1);
 	insertlisthead(HeadNode, 2);
 	insertlisthead(HeadNode, 3);
+    //打印
 	printf("正在打印链表...\n");
 	printlist(HeadNode);
+	//删除指定元素
 	deletenode(HeadNode, 2);
 	printf("正在打印删除数据后的链表...\n");
 	printlist(HeadNode);
@@ -112,4 +122,14 @@ void deletenode(Lplist HeadNode, int posdata)    //posdata为目标数据
 		posnodefront->next = posnode->next;      //目标数据结点的前一个结点指向目标数据结点的后一个结点
 		free(posnode);                   //释放目标数据结点的内存
 	}
+}
+
+//尾插法
+void insertlisttail(Lplist *tail, int data)
+{
+	Lplist newnode = CreateNode(data);
+
+	(*tail)->next = newnode;     //temp指向的结点的指针域指向新结点
+	*tail = newnode;        //temp指向新结点
+	(*tail)->next = NULL;
 }
