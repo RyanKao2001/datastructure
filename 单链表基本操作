@@ -18,7 +18,7 @@ void insertlisttail(Lplist *rear, int data);
 int main()
 {
 	Lplist HeadNode = CreateList();
-	//定义指向尾部的指针tail
+	//定义指向尾部的指针rear
 	Lplist rear = HeadNode;
 	//尾插法
 	insertlisttail(&rear, 1);
