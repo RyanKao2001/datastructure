@@ -140,7 +140,7 @@ void insertlisttail(Lplist *rear, int data)
 //销毁单链表
 void destroylist(Lplist pHead)
 {
-	Lplist p=NULL;      //定义指向头结点的指针
+	Lplist p=NULL;      //定义p指针用于释放内存
 
 	while (pHead)      //循环条件：pHead != NULL
 	{
