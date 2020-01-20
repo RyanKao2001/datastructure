@@ -10,13 +10,13 @@ typedef struct SingleList
 pLinkList CreateList();
 pLinkList CreateNode(int data);
 int IsEmpty(pLinkList List);
-void insertlisthead(pLinkList list, int data);
-void printlist(pLinkList list);
-void deletenode(pLinkList HeadNode, int posdata);
-void insertlisttail(pLinkList *rear, int data);
-void destroylist(pLinkList pHead);
-int listlength(pLinkList pHead);
-void clearlist(pLinkList pHead);
+void InsertListHead(pLinkList list, int data);
+void PrintList(pLinkList list);
+void DeleteNode(pLinkList HeadNode, int PosData);
+void InsertListTail(pLinkList *pRear, int data);
+void DestroyList(pLinkList pHead);
+int ListLength(pLinkList pHead);
+void ClearList(pLinkList pHead);
 
 int main()
 {
@@ -24,28 +24,28 @@ int main()
 	pLinkList HeadNode = CreateList();
 	//定义指向头结点的指针，即头指针
 	pLinkList pHead = HeadNode;
-	//定义指向尾部的指针rear
-	pLinkList rear = HeadNode;
+	//定义指向尾部的指针pRear
+	pLinkList pRear = HeadNode;
 	//尾插法
-	insertlisttail(&rear, 1);
-	insertlisttail(&rear, 2);
-	insertlisttail(&rear, 3);
+	InsertListTail(&pRear, 1);
+	InsertListTail(&pRear, 2);
+	InsertListTail(&pRear, 3);
 	//头插法
-	insertlisthead(HeadNode, 1);
-	insertlisthead(HeadNode, 2);
-	insertlisthead(HeadNode, 3);
+	InsertListHead(HeadNode, 1);
+	InsertListHead(HeadNode, 2);
+	InsertListHead(HeadNode, 3);
 	//求表长
-	printf("表长为%d\n", listlength(pHead));
+	printf("表长为%d\n", ListLength(pHead));
     //打印
-	printlist(HeadNode);
+	PrintList(HeadNode);
 	//删除指定元素
-	deletenode(HeadNode, 2);
+	DeleteNode(HeadNode, 2);
 	//求表长
-	printf("删除后表长为%d\n", listlength(pHead));
+	printf("删除后表长为%d\n", ListLength(pHead));
 	//打印
-	printlist(HeadNode);
+	PrintList(HeadNode);
 	//销毁单链表
-	destroylist(pHead);
+	DestroyList(pHead);
 	return 0;
 }
 
@@ -81,7 +81,7 @@ int IsEmpty(pLinkList HeadNode)
 
 //打印
 //即从首元素开始遍历链表
-void printlist(pLinkList HeadNode)
+void PrintList(pLinkList HeadNode)
 {
 	if (IsEmpty(HeadNode))        //调用判断是否为空的函数，空则返回1
 	{
@@ -89,66 +89,65 @@ void printlist(pLinkList HeadNode)
 		exit(0);
 	}
 
-	//pmove为移动的指针
-	pLinkList pmove = HeadNode->next;
-	while (pmove)
+	//pMove为移动的指针
+	pLinkList pMove = HeadNode->next;
+	while (pMove)
 	{
-		printf("%d -> ", pmove->data);
-		pmove = pmove->next;           //遍历链表
+		printf("%d -> ", pMove->data);
+		pMove = pMove->next;           //遍历链表
 	}
 	printf("NULL\n");
 }
 
 //表头插入
-void insertlisthead(pLinkList HeadNode, int data)
+void InsertListHead(pLinkList HeadNode, int data)
 {
 	//插入之前，必须存在插入的节点
-	pLinkList newnode = CreateNode(data);
+	pLinkList NewNode = CreateNode(data);
 
-	newnode->next = HeadNode->next;    //新结点的指针域 指向链表首元素
-	HeadNode->next = newnode;           //头结点的指针域 指向新结点
+	NewNode->next = HeadNode->next;    //新结点的指针域 指向链表首元素
+	HeadNode->next = NewNode;           //头结点的指针域 指向新结点
 }
 
 //指定数据删除
-void deletenode(pLinkList HeadNode, int posdata)    //posdata为目标数据
+void DeleteNode(pLinkList HeadNode, int PosData)    //PosData为目标数据
 {
-	pLinkList posnode = HeadNode->next;        //posnode指向链表首元素
-	pLinkList posnodefront = HeadNode;           //posnodefront指向头结点
-	if (posnode == NULL)
+	pLinkList PosNode = HeadNode->next;        //PosNode指向链表首元素
+	pLinkList PosNodeFront = HeadNode;           //PosNodeFront指向头结点
+	if (PosNode == NULL)
 		printf("无法删除空链表！\n");               //若首元素为NULL，说明链表为空
 	else
 	{
-		while (posnode->data != posdata)      //循环条件：未找到指定数据
+		while (PosNode->data != PosData)      //循环条件：未找到指定数据
 		{
-			posnodefront = posnode;
-			posnode = posnodefront->next;
+			PosNodeFront = PosNode;
+			PosNode = PosNodeFront->next;
 
-			if (posnode == NULL)                //到表尾仍未找到目标数据，则结束函数
+			if (PosNode == NULL)                //到表尾仍未找到目标数据，则结束函数
 			{
 				printf("未找到目标数据！\n");
 				return;
 			}
 		}
 
-		posnodefront->next = posnode->next;      //目标数据结点的前一个结点指向目标数据结点的后一个结点
-		free(posnode);                   //释放目标数据结点的内存
+		PosNodeFront->next = PosNode->next;      //目标数据结点的前一个结点指向目标数据结点的后一个结点
+		free(PosNode);                   //释放目标数据结点的内存
 	}
 }
 
 //尾插法
-void insertlisttail(pLinkList *rear, int data)
+void InsertListTail(pLinkList *pRear, int data)
 {
-	pLinkList newnode = CreateNode(data);
+	pLinkList NewNode = CreateNode(data);
 
-	(*rear)->next = newnode;     //temp指向的结点的指针域指向新结点
-	*rear = newnode;        //temp指向新结点
-	(*rear)->next = NULL;
+	(*pRear)->next = NewNode;     //pRear指向的结点的指针域指向新结点
+	*pRear = NewNode;        //pRear指向新结点
 }
 
 //销毁单链表
-void destroylist(pLinkList pHead)
+void DestroyList(pLinkList pHead)
 {
-	pLinkList p=NULL;      //定义p指针用于释放内存
+	pLinkList p;      //定义p指针用于释放内存
 
 	while (pHead)      //循环条件：pHead != NULL
 	{
@@ -159,7 +158,7 @@ void destroylist(pLinkList pHead)
 }
 
 //求表长
-int listlength(pLinkList pHead)
+int ListLength(pLinkList pHead)
 {
 	int i = 0;
 	pLinkList p=NULL;
@@ -173,7 +172,7 @@ int listlength(pLinkList pHead)
 }
 
 //清空单链表
-void clearlist(pLinkList pHead)
+void ClearList(pLinkList pHead)
 {
 	pLinkList p, q;
 	p = pHead->next;     //令p指向首元结点
