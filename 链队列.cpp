@@ -82,7 +82,7 @@ int DeQueue(pLinkQueue *pHead, pLinkQueue *pRear)
 	(*pHead)->next = p->next;
 	//若出队元素在表尾，需要将尾指针指向头结点
 	if (*pRear == p)
-		*pHead = *pRear;
+		*pRear = *pHead;
 	free(p);
 	return e;
 }
