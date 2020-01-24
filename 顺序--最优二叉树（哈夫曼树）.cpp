@@ -9,7 +9,7 @@ typedef struct
 }HuffmanTree, *pHuffmanTree;
 
 void CreateHuffmanTree(pHuffmanTree &HT, int n);
-void SelectMin(pHuffmanTree HT, int n, int &s1, int &s2);
+void Select(pHuffmanTree HT, int n, int &s1, int &s2);
 int HuffmanTreeWPL(pHuffmanTree HT);
 int HuffmanTreeWPL_(pHuffmanTree HT, int i, int deepth);
 void PrintTree(pHuffmanTree HT, int m);
@@ -41,7 +41,7 @@ void CreateHuffmanTree(pHuffmanTree &HT, int n)
 						 //初始化完毕, 创建哈夫曼树
 	for (int i = n + 1; i <= m; ++i) {
 		int s1, s2;
-		SelectMin(HT, i, s1, s2);
+		Select(HT, i, s1, s2);
 		HT[s1].parent = HT[s2].parent = i;
 		HT[i].lChild = s1; HT[i].rChild = s2;    // 作为新节点的孩子 
 		HT[i].weight = HT[s1].weight + HT[s2].weight;    // 新节点为左右孩子节点权值之和 
@@ -49,39 +49,34 @@ void CreateHuffmanTree(pHuffmanTree &HT, int n)
 }
 
 // 选择权值最小的两颗树 
-void SelectMin(pHuffmanTree HT, int n, int &s1, int &s2)
+void Select(pHuffmanTree HT, int len, int &s1, int &s2)
 {
-	s1 = s2 = 0;
-
+	// 先赋予最大值	
 	int i;
-	for (i = 1; i < n; ++i) {
-		if (0 == HT[i].parent) {
-			if (0 == s1) {
-				s1 = i;
-			}
-			else {
-				s2 = i;
-				break;
-			}
-		}
-	}
-	if (HT[s1].weight > HT[s2].weight) {
-		int t = s1;
-		s1 = s2;
-		s2 = t;
-	}
+	int min1 = 0x3f3f3f3f;
+	int min2 = 0x3f3f3f3f;
 
-	for (i += 1; i < n; ++i) {
-		if (0 == HT[i].parent) {
-			if (HT[i].weight < HT[s1].weight) {
-				s2 = s1;
-				s1 = i;
-			}
-			else if (HT[i].weight < HT[s2].weight) {
-				s2 = i;
-			}
+	for (i = 1; i < len; i++)	
+	{	
+		if (HT[i].weight<min1 && HT[i].parent == 0)		
+		{			
+			min1 = HT[i].weight;		
+			s1 = i;	
 		}
+	}	
+	// 将原值存放起来，然后先赋予最大值，防止s1被重复选择	
+	int temp = HT[s1].weight; 
+	HT[s1].weight = 0x3f3f3f3f;
+	for (i = 1; i < len; i++)	
+	{	
+		if (HT[i].weight<min2 && HT[i].parent == 0)	
+		{			
+			min2 = HT[i].weight;			
+			s2 = i;	
+		}	
 	}
+	// 恢复原来的值
+	HT[s1].weight = temp;
 }
 
 // 构造有n个权值（叶子节点）的哈夫曼树 
