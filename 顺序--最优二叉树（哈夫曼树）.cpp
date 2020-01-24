@@ -5,7 +5,9 @@
 typedef struct
 {
 	int weight;    // 权值
-	int parent, lChild, rChild;    // 双亲及左右孩子的下标 
+	int parent;
+	int Lchild;
+	int Rchild;    // 双亲及左右孩子的下标 
 }HuffmanTree, *pHuffmanTree;
 
 void CreateHuffmanTree(pHuffmanTree &HT, int n);
@@ -31,19 +33,22 @@ void CreateHuffmanTree(pHuffmanTree &HT, int n)
 	int m = 2 * n - 1;
 
 	HT = (pHuffmanTree)malloc(sizeof(HuffmanTree)*(m + 1));    // 0号节点不使用 
-	for (int i = 1; i <= m; ++i) {
-		HT[i].parent = HT[i].lChild = HT[i].rChild = 0;
+	for (int i = 1; i <= m; i++) 
+	{
+		HT[i].parent = HT[i].Lchild = HT[i].Rchild = 0;
 	}
-	for (int i = 1; i <= n; ++i) {
+	for (int i = 1; i <= n; i++)
+	{
 		scanf("%d", &HT[i].weight);    // 输入权值 
 	}
 	HT[0].weight = m;    // 用0号节点保存节点数量
-						 //初始化完毕, 创建哈夫曼树
-	for (int i = n + 1; i <= m; ++i) {
+	//初始化完毕, 创建哈夫曼树
+	for (int i = n + 1; i <= m; i++)
+	{
 		int s1, s2;
 		Select(HT, i, s1, s2);
 		HT[s1].parent = HT[s2].parent = i;
-		HT[i].lChild = s1; HT[i].rChild = s2;    // 作为新节点的孩子 
+		HT[i].Lchild = s1; HT[i].Rchild = s2;    // 作为新节点的孩子 
 		HT[i].weight = HT[s1].weight + HT[s2].weight;    // 新节点为左右孩子节点权值之和 
 	}
 }
@@ -82,11 +87,11 @@ void Select(pHuffmanTree HT, int len, int &s1, int &s2)
 // 构造有n个权值（叶子节点）的哈夫曼树 
 int HuffmanTreeWPL_(pHuffmanTree HT, int i, int deepth)
 {
-	if (HT[i].lChild == 0 && HT[i].rChild == 0) {
+	if (HT[i].Lchild == 0 && HT[i].Rchild == 0) {
 		return HT[i].weight * deepth;
 	}
 	else {
-		return HuffmanTreeWPL_(HT, HT[i].lChild, deepth + 1) + HuffmanTreeWPL_(HT, HT[i].rChild, deepth + 1);
+		return HuffmanTreeWPL_(HT, HT[i].Lchild, deepth + 1) + HuffmanTreeWPL_(HT, HT[i].Rchild, deepth + 1);
 	}
 }
 
@@ -98,10 +103,10 @@ int HuffmanTreeWPL(pHuffmanTree HT)
 
 void PrintTree(pHuffmanTree HT, int m)
 {
-	printf("Index weigHT parent lChild rChild\n");
+	printf("Index weigHT parent Lchild Rchild\n");
 	for (int i = 1; i <= m; i++)
 		printf("%-5d %-6d %-6d %-6d %-6d\n", 
-			i, HT[i].weight, HT[i].parent, HT[i].lChild, HT[i].rChild);
+			i, HT[i].weight, HT[i].parent, HT[i].Lchild, HT[i].Rchild);
 	printf("WPL = %d\n", HuffmanTreeWPL(HT));
 }
 
