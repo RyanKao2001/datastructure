@@ -26,15 +26,15 @@ int main()
 
 void fun(int n)
 {
-	int line;
-	for (line = 0; line < 8; line++)
+	int col;
+	for (col = 0; col < 8; col++)
 	{
-		if (flag[line] && UpperDiagonal[n - line + 7] && LowerDiagonal[n + line])
+		if (flag[col] && UpperDiagonal[n - col + 7] && LowerDiagonal[n + col])
 		{
-			place[n] = line;
-			flag[line] = false;
-			UpperDiagonal[n - line + 7] = false;
-			LowerDiagonal[n + line] = false;
+			place[n] = col;
+			flag[col] = false;
+			UpperDiagonal[n - col + 7] = false;
+			LowerDiagonal[n + col] = false;
 			//µİ¹é
 			if (n == 7) print();
 			else
@@ -42,9 +42,9 @@ void fun(int n)
 				fun(n + 1);
 			}
 			//»ØËİ
-			flag[line] = true;
-			UpperDiagonal[n - line + 7] = true;
-			LowerDiagonal[n + line] = true;
+			flag[col] = true;
+			UpperDiagonal[n - col + 7] = true;
+			LowerDiagonal[n + col] = true;
 		}
 	}
 }
