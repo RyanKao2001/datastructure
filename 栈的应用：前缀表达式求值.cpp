@@ -108,7 +108,14 @@ void fun(char Input[], SqStack &S)
 		case '+':result = a + b; break;
 		case '-':result = a - b; break;
 		case '*':result = a * b; break;
-		case '/':result = a / b; break;
+		case '/':
+			if (b == 0)
+			{
+				cout << "ERROR"; return;
+			}
+			else
+				result = a / b;
+			break;
 		}
 		Push(S, (char)result+48);
 	}
