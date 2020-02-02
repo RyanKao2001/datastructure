@@ -132,6 +132,11 @@ bool Check(int x, int y)
 
 void outputPath()
 {
+	if (shortest_path[1].x == 0 && shortest_path[1].y == 0)
+	{
+		cout << "此迷宫无解" << endl;
+		return;
+	}
 	cout << "最短路径:" << endl;
 	for (int i = 0; i < min_step; i++)
 	{
